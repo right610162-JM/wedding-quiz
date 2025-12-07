@@ -8,10 +8,9 @@ CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS-UEtx8h9lPYrdjWcAxu
 
 st.set_page_config(page_title="敬民 & 紫淇 Wedding Quiz", page_icon="💍", layout="centered")
 
-# 莫蘭迪色系 CSS (活潑風格)
+# 莫蘭迪色系 CSS
 st.markdown("""
     <style>
-    /* 主要配色：莫蘭迪色系 */
     :root {
         --morandi-pink: #E8B4B8;
         --morandi-blue: #A6B8C7;
@@ -21,12 +20,10 @@ st.markdown("""
         --morandi-coral: #E8C5B5;
     }
     
-    /* 整體背景 */
     .stApp {
         background: linear-gradient(135deg, #f5f0f6 0%, #fef4f0 100%);
     }
     
-    /* 按鈕樣式 */
     .stButton>button {
         width: 100%; 
         border-radius: 25px; 
@@ -51,14 +48,12 @@ st.markdown("""
         transform: scale(0.97); 
     }
     
-    /* 主要按鈕 */
     .stButton>button[kind="primary"] {
         background: linear-gradient(135deg, #E8B4B8 0%, #C4B5CF 100%);
         color: white;
         border: none;
     }
     
-    /* 禁用按鈕 */
     .stButton>button:disabled {
         background: #e9e9e9;
         border-color: #d0d0d0;
@@ -66,7 +61,6 @@ st.markdown("""
         opacity: 0.6;
     }
     
-    /* 題目文字 */
     .big-font { 
         font-size: 24px !important; 
         font-weight: bold; 
@@ -81,7 +75,6 @@ st.markdown("""
         box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
     
-    /* 分數板 */
     .score-board { 
         padding: 35px; 
         background: linear-gradient(135deg, #E8B4B8 0%, #C4B5CF 50%, #A6B8C7 100%);
@@ -93,19 +86,6 @@ st.markdown("""
         border: 4px solid white;
     }
     
-    /* 答案提示框 */
-    .answer-reveal {
-        padding: 20px; 
-        background: linear-gradient(135deg, #E5D4A6 0%, #f5ead0 100%);
-        border-radius: 15px;
-        border-left: 6px solid #d4b47e;
-        margin: 15px 0;
-        color: #6B5B6E;
-        font-weight: bold;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    }
-    
-    /* 統計框 */
     .stat-box {
         display: inline-block; 
         padding: 18px 25px; 
@@ -118,7 +98,6 @@ st.markdown("""
         box-shadow: 0 4px 12px rgba(232, 180, 184, 0.3);
     }
     
-    /* 答對率大圓圈 */
     .accuracy-circle {
         width: 200px;
         height: 200px;
@@ -133,7 +112,6 @@ st.markdown("""
         box-shadow: 0 15px 35px rgba(196, 181, 207, 0.5);
     }
     
-    /* 指標卡片 */
     [data-testid="stMetricValue"] {
         font-size: 28px;
         color: #6B5B6E;
@@ -145,12 +123,10 @@ st.markdown("""
         font-weight: 600;
     }
     
-    /* 進度條 */
     .stProgress > div > div > div {
         background: linear-gradient(90deg, #E8B4B8 0%, #C4B5CF 50%, #A6B8C7 100%);
     }
     
-    /* 成功/錯誤訊息 */
     .stSuccess {
         background: linear-gradient(135deg, #B8C5B0 0%, #d4e0cc 100%);
         border-left: 5px solid #8faa7f;
@@ -169,7 +145,6 @@ st.markdown("""
         border-radius: 10px;
     }
     
-    /* 標題樣式 */
     h1 {
         color: #6B5B6E !important;
         text-align: center;
@@ -179,18 +154,27 @@ st.markdown("""
         color: #8B7B8E !important;
     }
     
-    /* 分隔線 */
     hr {
         border: none;
         height: 2px;
         background: linear-gradient(90deg, transparent 0%, #E8B4B8 50%, transparent 100%);
         margin: 30px 0;
     }
+    
+    .pause-banner {
+        padding: 25px;
+        background: linear-gradient(135deg, #C4B5CF 0%, #A6B8C7 100%);
+        border-radius: 20px;
+        text-align: center;
+        margin: 20px 0;
+        color: white;
+        box-shadow: 0 8px 20px rgba(196, 181, 207, 0.4);
+    }
     </style>
     """, unsafe_allow_html=True)
 
 
-# 讀取資料 (簡化版 - 不區分難度)
+# 讀取資料
 @st.cache_data(ttl=60)
 def load_data():
     fallback = []
@@ -199,11 +183,8 @@ def load_data():
     
     try:
         df = pd.read_csv(CSV_URL)
-        
-        # 自動偵測欄位名稱 (不區分大小寫，去除空格)
         cols = {col.lower().strip(): col for col in df.columns}
         
-        # 找出對應的欄位
         question_col = None
         answer_col = None
         option_cols = []
@@ -218,10 +199,9 @@ def load_data():
         
         if not question_col or not answer_col or len(option_cols) < 4:
             st.error(f"欄位偵測失敗！請確認 CSV 包含：題目、選項1-4、答案欄位")
-            st.write("目前偵測到的欄位：", df.columns.tolist())
             return fallback
         
-        option_cols = sorted(option_cols)[:4]  # 取前4個選項
+        option_cols = sorted(option_cols)[:4]
         
         data = []
         for _, row in df.iterrows():
@@ -232,15 +212,13 @@ def load_data():
                     "ans": int(row[answer_col])
                 }
                 data.append(item)
-            except Exception as e:
-                st.warning(f"跳過一筆資料: {e}")
+            except:
                 continue
         
         return data
         
     except Exception as e:
         st.error(f"讀取資料時發生錯誤: {e}")
-        st.write("請檢查 CSV 連結是否正確，並確認已設定為「任何知道連結的使用者」可檢視")
         return fallback
 
 
@@ -256,78 +234,123 @@ if 'correct_count' not in st.session_state:
 if 'questions' not in st.session_state: 
     st.session_state.questions = []
 if 'lifelines' not in st.session_state: 
-    st.session_state.lifelines = 2
+    st.session_state.lifelines = 3
 if 'disabled_opts' not in st.session_state: 
     st.session_state.disabled_opts = []
-if 'show_answer' not in st.session_state: 
-    st.session_state.show_answer = False
-if 'last_answer_correct' not in st.session_state: 
-    st.session_state.last_answer_correct = None
 if 'answer_start_time' not in st.session_state: 
     st.session_state.answer_start_time = None
+if 'used_questions' not in st.session_state:
+    st.session_state.used_questions = []
+if 'round_num' not in st.session_state:
+    st.session_state.round_num = 1
+if 'paused' not in st.session_state:
+    st.session_state.paused = False
+if 'auto_next' not in st.session_state:
+    st.session_state.auto_next = False
 
 
-# 邏輯函數
-def start_game():
+# 打亂選項順序
+def shuffle_options(question):
+    """打亂選項順序，並記錄正確答案的新位置"""
+    correct_idx = question['ans'] - 1
+    options = question['options'][:]
+    correct_answer = options[correct_idx]
+    
+    # 打亂選項
+    random.shuffle(options)
+    
+    # 找出正確答案的新位置
+    new_correct_idx = options.index(correct_answer)
+    
+    return {
+        'q': question['q'],
+        'options': options,
+        'ans': new_correct_idx + 1
+    }
+
+
+# 開始遊戲
+def start_game(round_num=1):
     all_q = load_data()
     if not all_q: 
-        st.error("讀取不到題目，請檢查 Google Sheet 連結與欄位設定")
+        st.error("讀取不到題目，請檢查 Google Sheet 連結")
         return
-
-    # 打散所有題目
-    q_list = all_q[:]
-    random.shuffle(q_list)
-
-    st.session_state.questions = q_list
+    
+    # 過濾掉已使用過的題目
+    available_q = [q for q in all_q if q['q'] not in st.session_state.used_questions]
+    
+    if len(available_q) < 20:
+        st.error("剩餘題目不足20題！")
+        return
+    
+    # 隨機選20題
+    random.shuffle(available_q)
+    selected_q = available_q[:20]
+    
+    # 打亂每題的選項順序
+    shuffled_q = [shuffle_options(q) for q in selected_q]
+    
+    # 記錄已使用的題目
+    st.session_state.used_questions.extend([q['q'] for q in selected_q])
+    
+    st.session_state.questions = shuffled_q
     st.session_state.current_q = 0
     st.session_state.score = 0
     st.session_state.correct_count = 0
-    st.session_state.lifelines = 2
+    st.session_state.lifelines = 3
     st.session_state.disabled_opts = []
-    st.session_state.show_answer = False
-    st.session_state.last_answer_correct = None
     st.session_state.answer_start_time = time.time()
+    st.session_state.round_num = round_num
+    st.session_state.paused = False
+    st.session_state.auto_next = False
     st.session_state.page = 'game'
 
 
 def check(u_idx, ans_idx):
-    if st.session_state.show_answer:
-        return
-    
     time_taken = time.time() - st.session_state.answer_start_time
     base_score = 100
     speed_bonus = 0
     if time_taken < 10:
         speed_bonus = int((10 - time_taken) * 5)
     
-    lifeline_penalty = (2 - st.session_state.lifelines) * 20
+    lifeline_penalty = (3 - st.session_state.lifelines) * 15
     
     if u_idx == (ans_idx - 1):
         final_score = max(base_score + speed_bonus - lifeline_penalty, 50)
         st.session_state.score += final_score
         st.session_state.correct_count += 1
-        st.session_state.last_answer_correct = True
-        st.balloons()
         st.toast(f"🎉 答對了！+{final_score}分", icon="✅")
     else:
-        st.session_state.last_answer_correct = False
         st.toast("❌ 答錯了！", icon="❌")
     
-    st.session_state.show_answer = True
-    st.rerun()
+    # 設定自動進入下一題
+    st.session_state.auto_next = True
+    time.sleep(1.2)
+    
+    # 檢查是否每5題暫停
+    if (st.session_state.current_q + 1) % 5 == 0 and st.session_state.current_q + 1 < 20:
+        st.session_state.paused = True
+        st.rerun()
+    else:
+        next_question()
 
 
 def next_question():
     if st.session_state.current_q < len(st.session_state.questions) - 1:
         st.session_state.current_q += 1
         st.session_state.disabled_opts = []
-        st.session_state.show_answer = False
-        st.session_state.last_answer_correct = None
         st.session_state.answer_start_time = time.time()
+        st.session_state.auto_next = False
         st.rerun()
     else:
         st.session_state.page = 'result'
         st.rerun()
+
+
+def resume_game():
+    st.session_state.paused = False
+    st.session_state.auto_next = False
+    next_question()
 
 
 def lifeline(ans_val):
@@ -350,87 +373,87 @@ if st.session_state.page == 'home':
          border-radius: 20px; margin: 20px 0; border: 3px solid #E8B4B8;'>
         <h3 style='color: #6B5B6E; margin-bottom: 15px;'>🎮 遊戲規則</h3>
         <p style='color: #8B7B8E; font-size: 16px; line-height: 1.8;'>
-            ✨ 每題答對得 <strong>100分</strong><br>
-            ⚡ 速度越快，加分越多<br>
-            🆘 使用求救會扣分哦<br>
-            📊 最後以<strong>答對率</strong>評估你對新人的了解程度
+            📝 每回合隨機抽取 <strong>20題</strong><br>
+            ✨ 答對得分，速度越快加分越多<br>
+            🆘 提供 <strong>3次</strong> 求救機會<br>
+            ⏸️ 每 <strong>5題</strong> 可選擇暫停休息<br>
+            🎯 答完可挑戰下一回合（題目不重複）
         </p>
     </div>
     """, unsafe_allow_html=True)
     
-    # 預載資料
     data = load_data()
     
     if data:
-        st.info(f"📝 共有 {len(data)} 題，準備好了嗎？")
+        available = len(data) - len(st.session_state.used_questions)
+        st.info(f"📊 題庫共有 {len(data)} 題 | 剩餘可用 {available} 題")
     
     st.write("---")
     
     if st.button("🎯 開始挑戰", type="primary", use_container_width=True): 
-        start_game()
+        start_game(1)
         st.rerun()
 
 elif st.session_state.page == 'game':
-    q = st.session_state.questions[st.session_state.current_q]
-    total = len(st.session_state.questions)
+    # 檢查是否暫停
+    if st.session_state.paused:
+        st.markdown(f"""
+        <div class='pause-banner'>
+            <h2 style='color: white; margin: 0;'>⏸️ 休息時間</h2>
+            <p style='font-size: 18px; margin-top: 10px;'>已完成 {st.session_state.current_q + 1} 題，還剩 {20 - st.session_state.current_q - 1} 題</p>
+            <p style='font-size: 16px; opacity: 0.9;'>目前分數：{st.session_state.score} 分</p>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        st.write("---")
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("▶️ 繼續答題", type="primary", use_container_width=True):
+                resume_game()
+        with col2:
+            if st.button("🏠 結束挑戰", use_container_width=True):
+                st.session_state.page = 'result'
+                st.rerun()
+    
+    else:
+        q = st.session_state.questions[st.session_state.current_q]
+        total = len(st.session_state.questions)
 
-    # 進度條
-    st.progress((st.session_state.current_q + 1) / total)
-    
-    # 統計資訊
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        st.metric("💰 分數", st.session_state.score)
-    with col2:
-        st.metric("📝 題數", f"{st.session_state.current_q + 1}/{total}")
-    with col3:
-        current_acc = int((st.session_state.correct_count / (st.session_state.current_q + 1 if st.session_state.show_answer else st.session_state.current_q or 1)) * 100) if st.session_state.current_q > 0 or st.session_state.show_answer else 0
-        st.metric("📊 答對率", f"{current_acc}%")
-    
-    st.write("---")
-    
-    # 題目
-    st.markdown(f"<div class='big-font'>Q{st.session_state.current_q + 1}. {q['q']}</div>", unsafe_allow_html=True)
+        # 進度條
+        st.progress((st.session_state.current_q + 1) / total)
+        
+        # 統計資訊
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("💰 分數", st.session_state.score)
+        with col2:
+            st.metric("📝 題數", f"{st.session_state.current_q + 1}/{total}")
+        with col3:
+            st.metric("🆘 求救", st.session_state.lifelines)
+        
+        st.write("---")
+        
+        # 題目
+        st.markdown(f"<div class='big-font'>Q{st.session_state.current_q + 1}. {q['q']}</div>", unsafe_allow_html=True)
 
-    # 求救按鈕
-    if not st.session_state.show_answer:
+        # 求救按鈕
         if st.session_state.lifelines > 0 and not st.session_state.disabled_opts:
-            if st.button(f"🆘 求救 ({st.session_state.lifelines})", use_container_width=True): 
+            if st.button(f"🆘 求救 (剩餘 {st.session_state.lifelines} 次)", use_container_width=True): 
                 lifeline(q['ans'])
 
-    # 選項
-    if not st.session_state.show_answer:
+        # 選項
         for i, opt in enumerate(q['options']):
             disabled = i in st.session_state.disabled_opts
             if st.button(opt, key=f"opt_{st.session_state.current_q}_{i}", disabled=disabled, use_container_width=True): 
                 check(i, q['ans'])
-    else:
-        # 顯示答案
-        correct_idx = q['ans'] - 1
-        
-        if st.session_state.last_answer_correct:
-            st.success("🎉 恭喜答對！")
-        else:
-            st.error("😢 很可惜答錯了")
-            st.markdown(f"<div class='answer-reveal'>💡 正確答案是：<strong>{q['options'][correct_idx]}</strong></div>", unsafe_allow_html=True)
-        
-        # 顯示所有選項
-        for i, opt in enumerate(q['options']):
-            if i == correct_idx:
-                st.success(f"✓ {opt}")
-            else:
-                st.info(f"  {opt}")
-        
-        st.write("---")
-        if st.button("➡️ 下一題", type="primary", use_container_width=True):
-            next_question()
 
 elif st.session_state.page == 'result':
-    total_q = len(st.session_state.questions)
-    acc = (st.session_state.correct_count / total_q) * 100 if total_q > 0 else 0
+    total_q = 20
+    acc = (st.session_state.correct_count / total_q) * 100
     wrong_count = total_q - st.session_state.correct_count
 
-    st.title("🎉 挑戰結束")
+    st.title(f"🎉 第 {st.session_state.round_num} 回合結束")
     
     # 答對率大圓圈
     st.markdown(f"""
@@ -467,11 +490,25 @@ elif st.session_state.page == 'result':
     else:
         st.markdown("### 🎯 加油！下次一定更好！")
     
-    # 額外統計
-    st.write("")
-    st.info(f"🎮 本次共答題 {total_q} 題 | 🆘 使用求救 {2 - st.session_state.lifelines} 次")
+    st.write("---")
     
-    st.write("")
-    if st.button("🏠 回首頁", type="primary", use_container_width=True): 
-        st.session_state.page = 'home'
-        st.rerun()
+    # 檢查是否還有足夠題目
+    all_q = load_data()
+    available = len(all_q) - len(st.session_state.used_questions)
+    
+    if available >= 20:
+        st.success(f"🎊 還有 {available} 題可以挑戰！")
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("🎯 挑戰下一回合 (20題)", type="primary", use_container_width=True):
+                start_game(st.session_state.round_num + 1)
+                st.rerun()
+        with col2:
+            if st.button("🏠 回首頁", use_container_width=True):
+                st.session_state.page = 'home'
+                st.rerun()
+    else:
+        st.info(f"剩餘題目不足20題（剩餘 {available} 題）")
+        if st.button("🏠 回首頁", type="primary", use_container_width=True):
+            st.session_state.page = 'home'
+            st.rerun()
