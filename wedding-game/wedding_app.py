@@ -10,20 +10,20 @@ import urllib.parse
 CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS-UEtx8h9lPYrdjWcAxuu7LwadNL0KXDrI-zQJ4XfwHDvKHOaNs35krRervsBPuMhcRs1OXyluKz0K/pub?output=csv"
 
 # 👇👇👇 排行榜設定 👇👇👇
-# 步驟1: 建立 Google Form，包含欄位：暱稱、分數、答對率、回合數、時間戳記
-# 步驟2: 取得 Form 的預填連結（點擊右上角「...」→「取得預填連結」）
-# 步驟3: 將連結和各欄位ID填入下方
+# ⚠️ 重要：FORM_FIELD_XXX 的 entry ID 需要從「取得預填連結」中取得真實數值
+# 步驟：在 Google Form 點擊「⋮」→「取得預填連結」→ 填入測試資料 → 複製連結 → 分析 entry.XXXXXXX
 
-GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSd0SOigmWPwEEP_zQv-LlPyCa99a-SQhqa0PP9kIvyJOaQbLw/formResponse"  # Google Form 的基礎網址，例如 "https://docs.google.com/forms/d/e/1FAIpQLSc.../formResponse"
-FORM_FIELD_NICKNAME = "entry.123456789"  # 暱稱欄位ID，例如 "entry.123456789"
-FORM_FIELD_SCORE = "entry.987654321"     # 分數欄位ID，例如 "entry.987654321"
-FORM_FIELD_ACCURACY = "entry.111222333"  # 答對率欄位ID，例如 "entry.111222333"
-FORM_FIELD_ROUND = "entry.444555666"     # 回合數欄位ID，例如 "entry.444555666"
-FORM_FIELD_TIMESTAMP = "entry.777888999" # 時間戳記欄位ID，例如 "entry.777888999"
+GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSd0SOigmWPwEEP_zQv-LlPyCa99a-SQhqa0PP9kIvyJOaQbLw/formResponse"
+
+# ✅ 已從預填連結中取得真實 entry ID
+FORM_FIELD_NICKNAME = "entry.276737520"   # 暱稱
+FORM_FIELD_SCORE = "entry.1217367258"     # 分數
+FORM_FIELD_ACCURACY = "entry.1332601410"  # 答對率
+FORM_FIELD_ROUND = "entry.58646232"       # 回合數
+FORM_FIELD_TIMESTAMP = "entry.329305254"  # 時間戳記
 
 # 排行榜 CSV 連結（從 Google Form 的回應試算表發布）
-LEADERBOARD_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRSQIy2l6sp9rnZT7R_sItMthYztPdJyFsQapV09Up05y-kXE2L8kDPGBMkj3cEJGcrjU6b4srIzr_7/pub?output=csv"  # 例如 "https://docs.google.com/spreadsheets/.....output=csv"
-# ☝️☝️☝️ 這個是 Form 回應的試算表，發布為 CSV 格式
+LEADERBOARD_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRSQIy2l6sp9rnZT7R_sItMthYztPdJyFsQapV09Up05y-kXE2L8kDPGBMkj3cEJGcrjU6b4srIzr_7/pub?output=csv"
 
 st.set_page_config(page_title="敬民 & 紫淇 Wedding Quiz", page_icon="💍", layout="centered")
 
@@ -489,43 +489,12 @@ if st.session_state.page == 'home':
     st.title("💖 敬民 & 紫淇")
     st.subheader("🎊 Wedding Quiz 婚禮問答")
     
-    # 顯示排行榜按鈕和設定指南
-    col1, col2, col3 = st.columns([2, 1, 1])
+    # 顯示排行榜按鈕
+    col1, col2 = st.columns([3, 1])
     with col2:
         if st.button("🏆 排行榜", use_container_width=True):
             st.session_state.page = 'leaderboard'
             st.rerun()
-    with col3:
-        if st.button("⚙️ 設定", use_container_width=True):
-            st.session_state.show_setup_guide = not st.session_state.show_setup_guide
-            st.rerun()
-    
-    # 設定指南
-    if st.session_state.show_setup_guide:
-        st.markdown("""
-        <div class='setup-guide'>
-            <h4 style='color: #6B5B6E; margin-top: 0;'>📋 Google Form 排行榜設定指南</h4>
-            <p style='color: #8B7B8E; font-size: 14px; line-height: 1.6;'>
-                <strong>步驟1：建立 Google Form</strong><br>
-                • 新增問題：暱稱、分數、答對率、回合數、時間戳記<br>
-                • 全部設為「簡答」題型<br><br>
-                
-                <strong>步驟2：取得預填連結</strong><br>
-                • 點擊右上角「⋮」→「取得預填連結」<br>
-                • 隨便填入測試資料<br>
-                • 複製產生的連結<br><br>
-                
-                <strong>步驟3：分析連結格式</strong><br>
-                • 基礎網址：https://docs.google.com/forms/d/e/.../formResponse<br>
-                • 欄位ID：entry.123456789 (每個問題的ID)<br><br>
-                
-                <strong>步驟4：發布回應試算表</strong><br>
-                • 開啟 Form 的回應試算表<br>
-                • 檔案 → 發布到網路 → CSV 格式<br>
-                • 複製連結到 LEADERBOARD_URL
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
     
     st.markdown("""
     <div style='text-align: center; padding: 25px; background: linear-gradient(135deg, #ffffff 0%, #fef9f9 100%); 
