@@ -1,11 +1,18 @@
-import streamlit as st
-import random
-import time
-import pandas as pd
+# --- 🛠️ 設定區 (已幫你填好 Google 表單資訊) ---
 
-# --- 設定區 ---
-CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS-UEtx8h9lPYrdjWcAxuu7LwadNL0KXDrI-zQJ4XfwHDvKHOaNs35krRervsBPuMhcRs1OXyluKz0K/pub?output=csv"
+# 1. 題庫 CSV (這是你原本的題目，請確認是否正確)
+QUESTIONS_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS-UEtx8h9lPYrdjWcAxuu7LwadNL0KXDrI-zQJ4XfwHDvKHOaNs35krRervsBPuMhcRs1OXyluKz0K/pub?output=csv"
 
+# 2. ⚠️ 排行榜 CSV (請注意！這裡還缺一個連結)
+# 請去 Google 表單 -> 回覆 -> 建立試算表 -> 檔案 -> 發布到網路 -> 選擇 CSV
+LEADERBOARD_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTk1vGJOTJjoZHeXWA_JSnNOz9-AzflgHdaJhEgbgrcV4AxpjCa1x1ZP9oGk2H4ex9sDpoiHBRLfiev/pub?output=csv" 
+
+# 3. Google 表單提交網址 (已幫你修改好，可以直接用)
+FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSd0SOigmWPwEEP_zQv-LlPyCa99a-SQhqa0PP9kIvyJOaQbLw/formResponse"
+
+# 4. Google 表單欄位代號 (已幫你解析出來)
+ENTRY_NAME = "entry.276737520"   # 對應 testname
+ENTRY_SCORE = "entry.1217367258" # 對應 123
 st.set_page_config(page_title="敬民 & 紫淇 Wedding Quiz", page_icon="💍", layout="centered")
 
 # 莫蘭迪色系 CSS
