@@ -15,9 +15,6 @@ FORM_FIELD_ROUND = "entry.58646232"
 FORM_FIELD_TIMESTAMP = "entry.329305254"
 LEADERBOARD_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRSQIy2l6sp9rnZT7R_sItMthYztPdJyFsQapV09Up05y-kXE2L8kDPGBMkj3cEJGcrjU6b4srIzr_7/pub?output=csv"
 
-# 👇👇👇 新人插畫設定 👇👇👇
-COUPLE_IMAGE_URL = "https://meee.com.tw/HDZ2ECo"
-
 st.set_page_config(page_title="敬民 & 紫淇 Wedding Quiz", page_icon="💍", layout="centered")
 
 # 超強化 CSS - 包含動畫和特效
@@ -563,33 +560,6 @@ if st.session_state.page == 'home':
     
     st.markdown("<h1 class='title-glow'>💖 敬民 & 紫淇</h1>", unsafe_allow_html=True)
     st.subheader("🎊 Wedding Quiz 婚禮問答")
-    
-    # 新人插畫
-    if COUPLE_IMAGE_URL and COUPLE_IMAGE_URL != "":
-        st.markdown(f"""
-        <div style='text-align: center; margin: 30px 0;'>
-            <img src='{COUPLE_IMAGE_URL}' style='max-width: 100%; width: 500px; height: auto; 
-                 border-radius: 20px; box-shadow: 0 10px 30px rgba(232, 180, 184, 0.3);
-                 animation: floatImage 3s ease-in-out infinite;'>
-        </div>
-        <style>
-        @keyframes floatImage {{
-            0%, 100% {{ transform: translateY(0px); }}
-            50% {{ transform: translateY(-10px); }}
-        }}
-        </style>
-        """, unsafe_allow_html=True)
-    else:
-        # 佔位圖示
-        st.markdown("""
-        <div style='text-align: center; margin: 30px 0; padding: 60px; 
-             background: linear-gradient(135deg, #ffffff 0%, #fef9f9 100%);
-             border-radius: 20px; border: 3px dashed #E8B4B8;'>
-            <p style='font-size: 3em; margin: 0;'>💑</p>
-            <p style='color: #8B7B8E; margin-top: 10px;'>新人插畫位置</p>
-            <p style='color: #C4B5CF; font-size: 14px;'>請在設定區加入 COUPLE_IMAGE_URL</p>
-        </div>
-        """, unsafe_allow_html=True)
     
     col1, col2 = st.columns([3, 1])
     with col2:
