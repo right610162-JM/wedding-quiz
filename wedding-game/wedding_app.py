@@ -35,7 +35,7 @@ st.set_page_config(page_title=“敬民 & 紫淇 Wedding Quiz”, page_icon=“�
 
 # 莫蘭迪色系 CSS
 
-st.markdown(”””
+st.markdown(“““
 <style>
 /* 隱藏 Streamlit 預設元素 */
 #MainMenu {visibility: hidden;}
@@ -255,7 +255,7 @@ hr {
 @st.cache_data(ttl=60)
 def load_data():
 fallback = []
-if “YOUR_CSV_LINK” in CSV_URL or CSV_URL == “”:
+if “YOUR_CSV_LINK” in CSV_URL or CSV_URL == ““:
 return fallback
 
 ```
@@ -304,7 +304,7 @@ except Exception as e:
 
 @st.cache_data(ttl=30)
 def load_leaderboard():
-if not LEADERBOARD_URL or LEADERBOARD_URL == “”:
+if not LEADERBOARD_URL or LEADERBOARD_URL == ““:
 return []
 
 ```
@@ -593,13 +593,13 @@ if st.button("🏠 回首頁", type="primary", use_container_width=True):
 
 elif st.session_state.page == ‘game’:
 if st.session_state.paused:
-st.markdown(f”””
+st.markdown(f”““
 <div class='pause-banner'>
 <h2 style='color: white; margin: 0;'>⏸️ 休息時間</h2>
 <p style='font-size: 18px; margin-top: 10px;'>已完成 {st.session_state.current_q + 1} 題，還剩 {20 - st.session_state.current_q - 1} 題</p>
 <p style='font-size: 16px; opacity: 0.9;'>目前分數：{st.session_state.score} 分</p>
 </div>
-“””, unsafe_allow_html=True)
+“““, unsafe_allow_html=True)
 
 ```
     st.write("---")
