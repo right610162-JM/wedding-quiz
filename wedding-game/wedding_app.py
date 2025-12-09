@@ -392,8 +392,8 @@ def load_data():
         return data
     except: return fallback
 
-# 讀取排行榜
-@st.cache_data(ttl=30)
+# 讀取排行榜（快取時間縮短為 10 秒）
+@st.cache_data(ttl=10)
 def load_leaderboard():
     if not LEADERBOARD_URL or LEADERBOARD_URL == "": return []
     try:
@@ -608,12 +608,19 @@ elif st.session_state.page == 'leaderboard':
     st.title("🏆 排行榜")
     st.subheader("TOP 50 最強婚禮達人")
     
+    # 重新整理按鈕
+    col1, col2 = st.columns([3, 1])
+    with col2:
+        if st.button("🔄 重新整理", use_container_width=True):
+            st.cache_data.clear()
+            st.rerun()
+    
     if not LEADERBOARD_URL or LEADERBOARD_URL == "":
         st.warning("⚠️ 尚未設定排行榜！")
     else:
         leaderboard = load_leaderboard()
         if leaderboard:
-            st.markdown(f"<p style='text-align: center; color: #8B7B8E;'>🎊 目前共有 {len(leaderboard)} 位挑戰者</p>", unsafe_allow_html=True)
+            st.markdown(f"<p style='text-align: center; color: #8B7B8E;'>🎊 目前共有 {len(leaderboard)} 位挑戰者 | ⏰ 資料每 10 秒自動更新</p>", unsafe_allow_html=True)
             for idx, record in enumerate(leaderboard, 1):
                 rank_emoji = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"#{idx}"
                 rank_class = "leaderboard-gold" if idx == 1 else "leaderboard-silver" if idx == 2 else "leaderboard-bronze" if idx == 3 else ""
@@ -807,8 +814,8 @@ elif st.session_state.page == 'result':
                             st.success(f"✅ 已為 {nickname} 準備好成績！")
                             st.markdown(f"""
                             <div style='text-align: center; padding: 25px; background: #B8C5B0; border-radius: 20px; margin: 20px 0;'>
-                                <p style='color: white; font-size: 18px; margin-bottom: 20px;'>
-                                    請點擊下方按鈕開啟 Google Form 並提交成績
+                                <p style='color: white; font-size: 18px; margin-bottom: 20px; font-weight: bold;'>
+                                    ⚠️ 重要：請點擊下方按鈕開啟 Google Form
                                 </p>
                                 <a href="{form_url}" target="_blank" style='
                                     display: inline-block; padding: 18px 40px;
@@ -818,8 +825,13 @@ elif st.session_state.page == 'result':
                                     box-shadow: 0 6px 15px rgba(0,0,0,0.3);'>
                                     📝 開啟 Google Form 提交
                                 </a>
+                                <p style='color: white; font-size: 16px; margin-top: 20px;'>
+                                    👆 開啟後請確認資料並點擊「<strong>提交</strong>」按鈕
+                                </p>
                             </div>
                             """, unsafe_allow_html=True)
+                            st.warning("💡 提醒：必須在 Google Form 中點擊「提交」按鈕，成績才會進入排行榜！")
+                            st.info("⏰ 提交後約 10 秒，排行榜就會更新顯示你的成績")
                             st.balloons()
             with col2:
                 if st.button("❌ 不上傳", use_container_width=True):
@@ -833,7 +845,8 @@ elif st.session_state.page == 'result':
                 st.rerun()
     else:
         if all([GOOGLE_FORM_URL, FORM_FIELD_NICKNAME, FORM_FIELD_SCORE]):
-            st.success("✅ 成績已準備完成！別忘了提交 Google Form 哦～")
+            st.success("✅ 成績已準備完成！")
+            st.info("💡 記得要在 Google Form 中點擊「提交」按鈕，成績才會進入排行榜哦～")
         else:
             st.success("✅ 已跳過上傳")
     
