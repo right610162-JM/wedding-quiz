@@ -303,15 +303,27 @@ st.markdown("""
         text-align: center;
         font-size: 2.5em;
         font-weight: bold;
-        background: linear-gradient(45deg, #E8B4B8, #C4B5CF, #A6B8C7);
+        background: linear-gradient(45deg, #D4838A, #A88BA8, #7A9AB0);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         animation: titleShine 3s ease-in-out infinite;
+        text-shadow: 0 2px 10px rgba(212, 131, 138, 0.3);
     }
     
     @keyframes titleShine {
-        0%, 100% { filter: brightness(1); }
-        50% { filter: brightness(1.3); }
+        0%, 100% { filter: brightness(1.2); }
+        50% { filter: brightness(1.5); }
+    }
+    
+    /* 副標題顏色加深 */
+    h2, h3, .stMarkdown h2, .stMarkdown h3 {
+        color: #6B5B6E !important;
+    }
+    
+    /* 確保副標題可見 */
+    [data-testid="stHeader"] + div h2 {
+        color: #8B6B8E !important;
+        font-weight: bold;
     }
     
     /* 訊息提示優化 */
@@ -559,7 +571,7 @@ if st.session_state.page == 'home':
     """, unsafe_allow_html=True)
     
     st.markdown("<h1 class='title-glow'>💖 敬民 & 紫淇</h1>", unsafe_allow_html=True)
-    st.subheader("🎊 Wedding Quiz 婚禮問答")
+    st.markdown("<h2 style='text-align: center; color: #6B5B6E; font-weight: bold; margin-top: -10px;'>🎊 Wedding Quiz 婚禮問答</h2>", unsafe_allow_html=True)
     
     col1, col2 = st.columns([3, 1])
     with col2:
