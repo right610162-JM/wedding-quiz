@@ -253,6 +253,16 @@ st.markdown("""
         box-shadow: 0 5px 15px rgba(0,0,0,0.15);
     }
     
+    /* 排行榜文字加深 */
+    .leaderboard-item strong {
+        color: #4A3A4D !important;
+        font-size: 20px !important;
+    }
+    
+    .leaderboard-item div div {
+        color: #6B5B6E !important;
+    }
+    
     .leaderboard-gold { 
         border-left: 8px solid #FFD700 !important;
         background: linear-gradient(135deg, #FFF9E5 0%, #fef9f9 100%) !important;
@@ -830,7 +840,15 @@ elif st.session_state.page == 'result':
                                 </p>
                             </div>
                             """, unsafe_allow_html=True)
-                            st.warning("💡 提醒：必須在 Google Form 中點擊「提交」按鈕，成績才會進入排行榜！")
+                            st.markdown("""
+                            <div style='padding: 20px; background: linear-gradient(135deg, #6B5B6E 0%, #8B7B8E 100%);
+                                 border-radius: 15px; border: 3px solid #E8B4B8; margin: 15px 0;
+                                 box-shadow: 0 4px 10px rgba(0,0,0,0.15);'>
+                                <p style='color: white; font-size: 17px; margin: 0; text-align: center; font-weight: bold;'>
+                                    💡 提醒：必須在 Google Form 中點擊「提交」按鈕，成績才會進入排行榜！
+                                </p>
+                            </div>
+                            """, unsafe_allow_html=True)
                             st.info("⏰ 提交後約 10 秒，排行榜就會更新顯示你的成績")
                             st.balloons()
             with col2:
