@@ -9,7 +9,7 @@ import urllib.parse
 
 # 題目資料庫
 
-CSV_URL = “https://docs.google.com/spreadsheets/d/e/2PACX-1vS-UEtx8h9lPYrdjWcAxuu7LwadNL0KXDrI-zQJ4XfwHDvKHOaNs35krRervsBPuMhcRs1OXyluKz0K/pub?output=csv”
+CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS-UEtx8h9lPYrdjWcAxuu7LwadNL0KXDrI-zQJ4XfwHDvKHOaNs35krRervsBPuMhcRs1OXyluKz0K/pub?output=csv"
 
 # 👇👇👇 排行榜設定 👇👇👇
 
@@ -17,7 +17,7 @@ CSV_URL = “https://docs.google.com/spreadsheets/d/e/2PACX-1vS-UEtx8h9lPYrdjWcA
 
 # 步驟：在 Google Form 點擊「⋮」→「取得預填連結」→ 填入測試資料 → 複製連結 → 分析 entry.XXXXXXX
 
-GOOGLE_FORM_URL = “https://docs.google.com/forms/d/e/1FAIpQLSd0SOigmWPwEEP_zQv-LlPyCa99a-SQhqa0PP9kIvyJOaQbLw/formResponse”
+GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSd0SOigmWPwEEP_zQv-LlPyCa99a-SQhqa0PP9kIvyJOaQbLw/formResponse"
 
 # ✅ 已從預填連結中取得真實 entry ID
 
