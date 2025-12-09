@@ -21,11 +21,11 @@ GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSd0SOigmWPwEEP_zQv-L
 
 # ✅ 已從預填連結中取得真實 entry ID
 
-FORM_FIELD_NICKNAME = “entry.276737520”   # 暱稱
-FORM_FIELD_SCORE = “entry.1217367258”     # 分數
-FORM_FIELD_ACCURACY = “entry.1332601410”  # 答對率
-FORM_FIELD_ROUND = “entry.58646232”       # 回合數
-FORM_FIELD_TIMESTAMP = “entry.329305254”  # 時間戳記
+FORM_FIELD_NICKNAME = "entry.276737520"   # 暱稱
+FORM_FIELD_SCORE = "entry.1217367258"     # 分數
+FORM_FIELD_ACCURACY = "entry.1332601410"  # 答對率
+FORM_FIELD_ROUND = "entry.58646232"       # 回合數
+FORM_FIELD_TIMESTAMP = "entry.329305254"  # 時間戳記
 
 # 排行榜 CSV 連結（從 Google Form 的回應試算表發布）
 
