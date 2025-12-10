@@ -581,7 +581,16 @@ if st.session_state.page == 'home':
     """, unsafe_allow_html=True)
     
     st.markdown("<h1 class='title-glow'>💖 敬民 & 紫淇</h1>", unsafe_allow_html=True)
-    st.markdown("<h2 style='text-align: center; color: #6B5B6E; font-weight: bold; margin-top: -10px; white-space: nowrap;'>🎊 Wedding Quiz 婚禮問答</h2>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style='text-align: center; margin-top: -10px;'>
+        <h2 style='color: #6B5B6E; font-weight: bold; margin: 0; font-size: 1.5em; white-space: nowrap;'>
+            🎊 Wedding Quiz
+        </h2>
+        <h3 style='color: #8B7B8E; font-weight: 600; margin: 5px 0 0 0; font-size: 1.2em; white-space: nowrap;'>
+            婚禮問答
+        </h3>
+    </div>
+    """, unsafe_allow_html=True)
     
     col1, col2 = st.columns([3, 1])
     with col2:
