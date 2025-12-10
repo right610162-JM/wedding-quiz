@@ -581,7 +581,7 @@ if st.session_state.page == 'home':
     """, unsafe_allow_html=True)
     
     st.markdown("<h1 class='title-glow'>💖 敬民 & 紫淇</h1>", unsafe_allow_html=True)
-    st.markdown("<h2 style='text-align: center; color: #6B5B6E; font-weight: bold; margin-top: -10px;'>🎊 Wedding Quiz 婚禮問答</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; color: #6B5B6E; font-weight: bold; margin-top: -10px; white-space: nowrap;'>🎊 Wedding Quiz 婚禮問答</h2>", unsafe_allow_html=True)
     
     col1, col2 = st.columns([3, 1])
     with col2:
@@ -590,15 +590,15 @@ if st.session_state.page == 'home':
             st.rerun()
     
     st.markdown("""
-    <div style='text-align: center; padding: 30px; background: linear-gradient(135deg, #ffffff 0%, #fef9f9 100%); 
+    <div style='text-align: center; padding: 30px 20px; background: linear-gradient(135deg, #ffffff 0%, #fef9f9 100%); 
          border-radius: 25px; margin: 20px 0; border: 3px solid #E8B4B8; box-shadow: 0 8px 20px rgba(0,0,0,0.1);'>
         <h3 style='color: #6B5B6E; margin-bottom: 20px;'>🎮 遊戲規則</h3>
-        <p style='color: #8B7B8E; font-size: 17px; line-height: 2;'>
-            📝 每回合隨機抽取 <strong>20題</strong><br>
+        <p style='color: #8B7B8E; font-size: 17px; line-height: 2; padding: 0 15px;'>
+            📝 每回合隨機抽取 <strong style='white-space: nowrap;'>20題</strong><br>
             ✨ 答對得分，速度越快加分越多<br>
-            🔥 <strong>連續答對有 Combo 獎勵</strong><br>
-            🆘 提供 <strong>3次</strong> 求救機會<br>
-            ⏸️ 每 <strong>5題</strong> 可選擇暫停休息<br>
+            🔥 <strong style='white-space: nowrap;'>連續答對有 Combo 獎勵</strong><br>
+            🆘 提供 <strong style='white-space: nowrap;'>3次</strong> 求救機會<br>
+            ⏸️ 每 <strong style='white-space: nowrap;'>5題</strong> 可選擇暫停休息<br>
             🏆 遊戲結束可上傳成績到排行榜
         </p>
     </div>
@@ -615,8 +615,8 @@ if st.session_state.page == 'home':
         st.rerun()
 
 elif st.session_state.page == 'leaderboard':
-    st.title("🏆 排行榜")
-    st.subheader("TOP 50 最強婚禮達人")
+    st.markdown("<h1 style='color: #4A3A4D; text-align: center; font-weight: bold; white-space: nowrap;'>🏆 排行榜</h1>", unsafe_allow_html=True)
+    st.markdown("<h3 style='color: #6B5B6E; text-align: center; font-weight: bold; white-space: nowrap;'>TOP 50 最強婚禮達人</h3>", unsafe_allow_html=True)
     
     # 重新整理按鈕
     col1, col2 = st.columns([3, 1])
@@ -630,7 +630,7 @@ elif st.session_state.page == 'leaderboard':
     else:
         leaderboard = load_leaderboard()
         if leaderboard:
-            st.markdown(f"<p style='text-align: center; color: #8B7B8E;'>🎊 目前共有 {len(leaderboard)} 位挑戰者 | ⏰ 資料每 10 秒自動更新</p>", unsafe_allow_html=True)
+            st.markdown(f"<p style='text-align: center; color: #6B5B6E; font-weight: 600; font-size: 16px;'>🎊 目前共有 {len(leaderboard)} 位挑戰者 | ⏰ 資料每 10 秒自動更新</p>", unsafe_allow_html=True)
             for idx, record in enumerate(leaderboard, 1):
                 rank_emoji = "🥇" if idx == 1 else "🥈" if idx == 2 else "🥉" if idx == 3 else f"#{idx}"
                 rank_class = "leaderboard-gold" if idx == 1 else "leaderboard-silver" if idx == 2 else "leaderboard-bronze" if idx == 3 else ""
@@ -641,11 +641,11 @@ elif st.session_state.page == 'leaderboard':
                 <div class='leaderboard-item {rank_class}'>
                     <div>
                         <span style='font-size: 28px; margin-right: 15px;'>{rank_emoji}</span>
-                        <strong style='font-size: 20px;'>{nickname}</strong>
+                        <strong style='font-size: 20px; color: #4A3A4D;'>{nickname}</strong>
                     </div>
                     <div style='text-align: right;'>
-                        <div style='font-size: 24px; font-weight: bold; color: #E8B4B8;'>{score} 分</div>
-                        <div style='font-size: 15px; color: #999;'>{accuracy}% 正確率</div>
+                        <div style='font-size: 24px; font-weight: bold; color: #D4838A;'>{score} 分</div>
+                        <div style='font-size: 15px; color: #6B5B6E; font-weight: 600;'>{accuracy}% 正確率</div>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -660,10 +660,10 @@ elif st.session_state.page == 'leaderboard':
 elif st.session_state.page == 'game':
     if st.session_state.paused:
         st.markdown(f"""
-        <div style='padding: 30px; background: linear-gradient(135deg, #C4B5CF 0%, #A6B8C7 100%);
+        <div style='padding: 30px 20px; background: linear-gradient(135deg, #C4B5CF 0%, #A6B8C7 100%);
              border-radius: 25px; text-align: center; margin: 20px 0; color: white;
              box-shadow: 0 10px 25px rgba(196, 181, 207, 0.5);'>
-            <h2 style='color: white; margin: 0; font-size: 2em;'>⏸️ 休息時間</h2>
+            <h2 style='color: white; margin: 0; font-size: 2em; white-space: nowrap;'>⏸️ 休息時間</h2>
             <p style='font-size: 20px; margin-top: 15px;'>已完成 {st.session_state.current_q + 1} 題，還剩 {20 - st.session_state.current_q - 1} 題</p>
             <p style='font-size: 18px; opacity: 0.95;'>目前分數：{st.session_state.score} 分</p>
             <p style='font-size: 16px; opacity: 0.9;'>🔥 最高 Combo：{st.session_state.max_combo}</p>
@@ -721,7 +721,7 @@ elif st.session_state.page == 'result':
     wrong_count = total_q - st.session_state.correct_count
     badge_text, badge_class = get_badge(acc)
     
-    st.title(f"🎉 第 {st.session_state.round_num} 回合結束")
+    st.markdown(f"<h1 style='color: #4A3A4D; text-align: center; font-weight: bold; white-space: nowrap;'>🎉 第 {st.session_state.round_num} 回合結束</h1>", unsafe_allow_html=True)
     
     # 等級徽章
     st.markdown(f"""
@@ -792,9 +792,9 @@ elif st.session_state.page == 'result':
     # 分享卡片
     st.markdown(f"""
     <div class='share-card'>
-        <h3 style='margin: 0 0 15px 0;'>📸 分享我的成績</h3>
+        <h3 style='margin: 0 0 15px 0; white-space: nowrap;'>📸 分享我的成績</h3>
         <p style='font-size: 1.2em; margin: 10px 0;'>我在「敬民 & 紫淇婚禮問答」獲得了</p>
-        <p style='font-size: 2em; font-weight: bold; margin: 10px 0;'>{st.session_state.score} 分</p>
+        <p style='font-size: 2em; font-weight: bold; margin: 10px 0; white-space: nowrap;'>{st.session_state.score} 分</p>
         <p style='font-size: 1.1em; margin: 10px 0;'>答對率 {int(acc)}% | {badge_text}</p>
     </div>
     """, unsafe_allow_html=True)
@@ -823,9 +823,9 @@ elif st.session_state.page == 'result':
                             st.session_state.score_uploaded = True
                             st.success(f"✅ 已為 {nickname} 準備好成績！")
                             st.markdown(f"""
-                            <div style='text-align: center; padding: 25px; background: #B8C5B0; border-radius: 20px; margin: 20px 0;'>
+                            <div style='text-align: center; padding: 25px 20px; background: #B8C5B0; border-radius: 20px; margin: 20px 0;'>
                                 <p style='color: white; font-size: 18px; margin-bottom: 20px; font-weight: bold;'>
-                                    ⚠️ 重要：請點擊下方按鈕開啟 Google Form
+                                    ⚠️ 重要：請點擊下方按鈕<br>開啟 Google Form
                                 </p>
                                 <a href="{form_url}" target="_blank" style='
                                     display: inline-block; padding: 18px 40px;
@@ -835,17 +835,17 @@ elif st.session_state.page == 'result':
                                     box-shadow: 0 6px 15px rgba(0,0,0,0.3);'>
                                     📝 開啟 Google Form 提交
                                 </a>
-                                <p style='color: white; font-size: 16px; margin-top: 20px;'>
-                                    👆 開啟後請確認資料並點擊「<strong>提交</strong>」按鈕
+                                <p style='color: white; font-size: 16px; margin-top: 20px; line-height: 1.6;'>
+                                    👆 開啟後請確認資料並<br>點擊「<strong>提交</strong>」按鈕
                                 </p>
                             </div>
                             """, unsafe_allow_html=True)
                             st.markdown("""
-                            <div style='padding: 20px; background: linear-gradient(135deg, #6B5B6E 0%, #8B7B8E 100%);
+                            <div style='padding: 20px 15px; background: linear-gradient(135deg, #6B5B6E 0%, #8B7B8E 100%);
                                  border-radius: 15px; border: 3px solid #E8B4B8; margin: 15px 0;
                                  box-shadow: 0 4px 10px rgba(0,0,0,0.15);'>
-                                <p style='color: white; font-size: 17px; margin: 0; text-align: center; font-weight: bold;'>
-                                    💡 提醒：必須在 Google Form 中點擊「提交」按鈕，成績才會進入排行榜！
+                                <p style='color: white; font-size: 17px; margin: 0; text-align: center; font-weight: bold; line-height: 1.6;'>
+                                    💡 提醒：必須在 Google Form 中<br>點擊「提交」按鈕，<br>成績才會進入排行榜！
                                 </p>
                             </div>
                             """, unsafe_allow_html=True)
@@ -864,7 +864,14 @@ elif st.session_state.page == 'result':
     else:
         if all([GOOGLE_FORM_URL, FORM_FIELD_NICKNAME, FORM_FIELD_SCORE]):
             st.success("✅ 成績已準備完成！")
-            st.info("💡 記得要在 Google Form 中點擊「提交」按鈕，成績才會進入排行榜哦～")
+            st.markdown("""
+            <div style='padding: 15px; background: linear-gradient(135deg, #A6B8C7 0%, #d0dce5 100%);
+                 border-radius: 10px; border-left: 5px solid #7a9ab0; margin: 10px 0;'>
+                <p style='color: white; font-size: 15px; margin: 0; line-height: 1.6;'>
+                    💡 記得要在 Google Form 中<br>點擊「提交」按鈕，成績才會進入排行榜哦～
+                </p>
+            </div>
+            """, unsafe_allow_html=True)
         else:
             st.success("✅ 已跳過上傳")
     
